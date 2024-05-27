@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Image</title>
+    <style>
+      #image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      #random-image {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="image-container">
+      <img id="random-image" alt="Random Image" />
+    </div>
+
+    <script>
+      function getRandomImage() {
+        // Getting random number
+        const randomIndex = Math.floor(Math.random() * 9) + 1;
+        // Creating path to image
+        const imagePath = `images/${randomIndex}.jpeg`;
+        console.log("Selected image path:", imagePath);
+        return imagePath;
+      }
+
+      function displayRandomImage() {
+        const imageElement = document.getElementById("random-image");
+        const randomImagePath = getRandomImage();
+        imageElement.src = randomImagePath;
+        imageElement.onload = () => {
+          console.log("Image loaded successfully:", randomImagePath);
+        };
+        imageElement.onerror = () => {
+          console.error("Failed to load image:", randomImagePath);
+          imageElement.alt = "Failed to load image";
+        };
+      }
+
+      window.onload = displayRandomImage;
+    </script>
+  </body>
+</html>
