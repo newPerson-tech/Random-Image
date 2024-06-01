@@ -3,226 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internet Store</title>
+    <title>Random Image</title>
     <style>
-      body {
+      #image-container {
         display: flex;
-        background-color: #ccc;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
       }
-      .category-list,
-      .product-list,
-      .product-info {
-        flex: 1;
-        padding: 20px;
-        border: 1px solid #ccc;
-        margin: 10px;
-        background-color: aliceblue;
-      }
-      .category-list {
-        max-width: 200px;
-      }
-      .product-list,
-      .product-info,
-      #order-form,
-      #order-summary {
-        display: none;
-      }
-      .hidden {
-        display: none;
-      }
-      .error {
-        color: red;
+      #random-image {
+        max-width: 100%;
+        max-height: 100%;
       }
     </style>
   </head>
   <body>
-    <div class="category-list">
-      <h2>Categories</h2>
-      <ul id="categories">
-        <!-- Categories being added by js -->
-      </ul>
-    </div>
-    <div class="product-list">
-      <h2>Products</h2>
-      <ul id="products">
-        <!-- Products will be added by js -->
-      </ul>
-    </div>
-    <div class="product-info">
-      <h2>Product details</h2>
-      <div id="product-details">
-        <!-- Product details will be added by js -->
-      </div>
-      <button id="buy-button">Purchase</button>
-    </div>
-
-    <div id="order-form">
-      <h2>Order Form</h2>
-      <form id="purchase-form">
-        <label>
-          Full name:
-          <input type="text" id="customer-name" required /> </label
-        ><br /><br />
-        <label>
-          City:
-          <select id="city" required>
-            <option value="">Select city</option>
-            <option value="Київ">Kyiv</option>
-            <option value="Львів">Lviv</option>
-            <option value="Одеса">Odesa</option>
-            <option value="Харків">Kharkiv</option>
-          </select> </label
-        ><br /><br />
-        <label>
-          Nova Post store:
-          <input type="text" id="warehouse" required /> </label
-        ><br /><br />
-        <label>
-          Payment:
-          <select id="payment-method" required>
-            <option value="">Select payment method</option>
-            <option value="Післяплата">Postpaid</option>
-            <option value="Оплата банківською карткою">
-              Bank Card Payment
-            </option>
-          </select> </label
-        ><br /><br />
-        <label>
-          Items:
-          <input type="number" id="quantity" min="1" required /> </label
-        ><br /><br />
-        <label>
-          Comment to shipper:
-          <textarea id="comment"></textarea></label
-        ><br /><br />
-        <button type="submit">Order Confirmation</button>
-        <div id="form-error" class="error hidden">
-          Filling all fields is mandatory
-        </div>
-      </form>
-    </div>
-
-    <div id="order-summary">
-      <h2>Order Summary</h2>
-      <div id="order-details"></div>
+    <div id="image-container">
+      <img id="random-image" alt="Random Image" />
     </div>
 
     <script>
-      // Products examples
-      const categories = {
-        Electronics: ["Phone", "Laptop", "TV"],
-        Clothes: ["Tshirt", "Jeans", "Coat"],
-        Groceries: ["Bread", "Milk", "Cheese"],
-      };
-
-      const productsInfo = {
-        Phone: "IPhone 13 128GB - Pink",
-        Laptop:
-          "HP 15-fc0008na, AMD Rysen 5 Processor, 8GB RAM, 256GB SSD, 15,6'' Full HD, Natural Silver",
-        TV: "LG 43LQ60006LA (2023) LED HDR Full HD 1080 Smart TV, 43'' with Freeview Play/Freesat HD, Black",
-        Tshirt: "Superdry Vintage Logo Nein T-Shirt Men",
-        Jeans: "Superdry Vintage Slim Jeans Dark-Blue Men",
-        Coat: "Superdry Hooded Sports Puffer Jacket Eclipse Navy Men",
-        Bread: "Keto Chefs Hand Crafted Low Carb Sandwitch Loaf 3x (600g)",
-        Milk: "Lakeland Dairies Long Life Whole Milk 12x 1ltr",
-        Cheese: "Waitrose Cheese Selection (870g)",
-      };
-
-      const categoryList = document.querySelector(".category-list");
-      const productList = document.querySelector(".product-list");
-      const productInfo = document.querySelector(".product-info");
-      const categoriesContainer = document.getElementById("categories");
-      const productsContainer = document.getElementById("products");
-      const productDetails = document.getElementById("product-details");
-      const buyButton = document.getElementById("buy-button");
-      const orderForm = document.getElementById("order-form");
-      const purchaseForm = document.getElementById("purchase-form");
-      const formError = document.getElementById("form-error");
-      const orderSummary = document.getElementById("order-summary");
-      const orderDetails = document.getElementById("order-details");
-
-      let currentProduct = "";
-
-      function showCategories() {
-        categoryList.style.display = "block";
-        productList.style.display = "none";
-        productInfo.style.display = "none";
-        orderForm.style.display = "none";
-        orderSummary.style.display = "none";
+      function getRandomImage() {
+        // Getting random number
+        const randomIndex = Math.floor(Math.random() * 9) + 1;
+        // Creating path to image
+        const imagePath = `images/${randomIndex}.jpeg`;
+        console.log("Selected image path:", imagePath);
+        return imagePath;
       }
 
-      function showProducts(category) {
-        productList.style.display = "block";
-        productInfo.style.display = "none";
-        orderForm.style.display = "none";
-        orderSummary.style.display = "none";
-        productsContainer.innerHTML = "";
-
-        categories[category].forEach((product) => {
-          const li = document.createElement("li");
-          li.textContent = product;
-          li.addEventListener("click", () => showProductInfo(product));
-          productsContainer.appendChild(li);
-        });
+      function displayRandomImage() {
+        const imageElement = document.getElementById("random-image");
+        const randomImagePath = getRandomImage();
+        imageElement.src = randomImagePath;
+        imageElement.onload = () => {
+          console.log("Image loaded successfully:", randomImagePath);
+        };
+        imageElement.onerror = () => {
+          console.error("Failed to load image:", randomImagePath);
+          imageElement.alt = "Failed to load image";
+        };
       }
 
-      function showProductInfo(product) {
-        productInfo.style.display = "block";
-        orderForm.style.display = "none";
-        orderSummary.style.display = "none";
-        productDetails.textContent = productsInfo[product];
-        currentProduct = product;
-      }
-
-      buyButton.addEventListener("click", () => {
-        orderForm.style.display = "block";
-        formError.classList.add("hidden");
-      });
-
-      purchaseForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const customerName = document.getElementById("customer-name").value;
-        const city = document.getElementById("city").value;
-        const warehouse = document.getElementById("warehouse").value;
-        const paymentMethod = document.getElementById("payment-method").value;
-        const quantity = document.getElementById("quantity").value;
-        const comment = document.getElementById("comment").value;
-
-        if (
-          !customerName ||
-          !city ||
-          !warehouse ||
-          !paymentMethod ||
-          !quantity
-        ) {
-          formError.classList.remove("hidden");
-          return;
-        }
-
-        formError.classList.add("hidden");
-        orderForm.style.display = "none";
-        orderSummary.style.display = "block";
-
-        orderDetails.innerHTML = `
-                <p><strong>Товар:</strong> ${productsInfo[currentProduct]}</p>
-                <p><strong>ПІБ покупця:</strong> ${customerName}</p>
-                <p><strong>Місто:</strong> ${city}</p>
-                <p><strong>Склад Нової пошти:</strong> ${warehouse}</p>
-                <p><strong>Метод оплати:</strong> ${paymentMethod}</p>
-                <p><strong>Кількість:</strong> ${quantity}</p>
-                <p><strong>Коментар:</strong> ${comment}</p>
-            `;
-      });
-
-      Object.keys(categories).forEach((category) => {
-        const li = document.createElement("li");
-        li.textContent = category;
-        li.addEventListener("click", () => showProducts(category));
-        categoriesContainer.appendChild(li);
-      });
-
-      showCategories();
+      window.onload = displayRandomImage;
     </script>
   </body>
 </html>
